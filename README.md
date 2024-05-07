@@ -1,9 +1,8 @@
 ALGORITMO DE ORDENAMIENTO UTILIZANDO NÚMEROS ENTEROS POSTIVOS 
 
-Este es un algoritmo de ordenación que trabaja con números enteros positivos. Al principio, el algoritmo te permite seleccionar un rango de números solicitando primero un número más pequeño y luego uno más grande. Luego, usando una función de generación de números aleatorios, puedes decidir cuántos dígitos quieres que se generen en un archivo .TXT, cada uno separado por un espacio.
+Este algoritmo de ordenación está diseñado para trabajar con números enteros positivos. En su inicio, solicita al usuario definir un rango de números, comenzando con el número más pequeño y terminando con el más grande. Posteriormente, mediante una función de generación de números aleatorios, se puede determinar cuántos dígitos se generarán en un archivo .TXT, separando cada número por un espacio.
 
-Después de esto, se presenta un menú principal con opciones para eliminar, ingresar, ver los números de la lista o los números del archivo txt. La opción más relevante es la de seleccionar un método de ordenación. Al seleccionar esta opción, se despliegan varios métodos de ordenación que te permiten comprobar el tiempo que tarda en completarse el ordenamiento, mostrando cada paso del proceso.
-
+Una vez establecido el rango y generado el archivo, se presenta un menú principal con diversas opciones, que incluyen la posibilidad de añadir, eliminar, visualizar los números en la lista o los contenidos del archivo .TXT. No obstante, la opción más relevante es la selección de un método de ordenación. Al elegir esta opción, se despliegan varios métodos de ordenación que permiten al usuario observar el tiempo que requiere el algoritmo para completar el proceso de ordenamiento, mostrando cada paso del mismo.
 Los métodos de ordenación disponibles son:
 
 1. Bubble Sort Cristian
