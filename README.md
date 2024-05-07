@@ -603,5 +603,224 @@ La función `shellSort` implementa el algoritmo de ordenamiento Shell Sort en un
 }
 
 
-9. Counting Sort
-10. Radix Sort
+8. Counting Sort
+
+La función `countingSort` implementa el algoritmo de ordenamiento Counting Sort en una lista enlazada. Counting Sort es un algoritmo de ordenamiento eficiente que funciona contando la frecuencia de cada elemento en la lista y luego reconstruyendo la lista basándose en estos conteos. A continuación, se detalla la lógica de la función:
+
+### Inicio y Medición del Tiempo
+
+- **Inicio del medidor de tiempo**: Se inicia el medidor de tiempo utilizando `high_resolution_clock` para poder calcular el tiempo de ejecución del algoritmo.
+
+### Impresión del Arreglo Inicial
+
+- **Impresión de la lista enlazada**: Se imprime la lista enlazada actual para mostrar el estado inicial antes de aplicar el algoritmo de ordenamiento.
+
+### Obtención del Rango
+
+- **Obtener el mínimo y el máximo valor**: Se utiliza la función `obtenerMinimoMaximo` para determinar el rango de valores en la lista. Esto es necesario para crear el vector de frecuencias.
+
+### Creación del Vector de Frecuencias
+
+- **Inicialización del vector de frecuencias**: Se crea un vector de frecuencias con un tamaño igual al rango de valores en la lista, inicializado en cero.
+
+### Conteo de Frecuencias
+
+- **Contar la frecuencia de cada elemento**: Se recorre la lista enlazada, incrementando el conteo correspondiente en el vector de frecuencias para cada valor encontrado.
+
+### Mostrar Frecuencias
+
+- **Visualización de las frecuencias**: Se muestra el vector de frecuencias y los valores correspondientes para ayudar a entender el proceso de ordenamiento.
+
+### Reconstrucción de la Lista Ordenada
+
+- **Reconstrucción de la lista**: Se recorre nuevamente la lista enlazada, asignando a cada nodo el valor correspondiente basado en el vector de frecuencias. Esto efectivamente ordena la lista.
+
+### Fin y Medición del Tiempo
+
+- **Fin del medidor de tiempo**: Se registra el tiempo final utilizando el medidor de tiempo iniciado al principio.
+
+- **Impresión del arreglo después del Counting Sort**: Se imprime la lista enlazada final para mostrar el resultado del ordenamiento.
+
+
+
+// Función para obtener el mínimo y el máximo valor en la lista
+void obtenerMinimoMaximo(Nodo* cabeza, int& minimo, int& maximo) {
+    minimo = stoi(cabeza->dato);
+    maximo = stoi(cabeza->dato);
+    Nodo* temp = cabeza->siguiente;
+    while (temp) {
+        int valor = stoi(temp->dato);
+        if (valor < minimo) {
+            minimo = valor;
+        } else if (valor > maximo) {
+            maximo = valor;
+        }
+        temp = temp->siguiente;
+    }
+}
+
+// Función para ordenar el arreglo utilizando el algoritmo Counting Sort
+void countingSort(Nodo*& cabeza) {
+    auto start = high_resolution_clock::now();
+
+    cout << "\n\tArreglo inicial: ";
+    imprimirLista(cabeza);
+
+    // Obtener el mínimo y el máximo valor en la lista
+    int minimo, maximo;
+    obtenerMinimoMaximo(cabeza, minimo, maximo);
+    int rango = maximo - minimo + 1;
+
+    // Crear un arreglo de frecuencias y inicializarlo en cero
+    vector<int> frecuencias(rango, 0);
+
+    // Contar la frecuencia de cada elemento en la lista
+    Nodo* temp = cabeza;
+    while (temp) {
+        int valor = stoi(temp->dato);
+        frecuencias[valor - minimo]++;
+        temp = temp->siguiente;
+    }
+
+    // Mostrar los pasos del algoritmo
+    cout << "\n\tCrear una lista de recuentos para cada valor único en la lista de entrada:" << endl;
+    cout << "\n\tcount = [";
+    for (int i = 0; i < rango; ++i) {
+        cout << frecuencias[i];
+        if (i < rango - 1) {
+            cout << ", ";
+        }
+    }
+    cout << "]" << endl;
+    
+    // Mostrar a qué valor se refiere cada recuento
+    cout << "\t  # val: ";
+    for (int i = 0; i < rango; ++i) {
+        cout << minimo + i << "  ";
+    }
+    cout << endl;
+
+    // Reconstruir la lista con los elementos ordenados
+    cout << "\n\tRevisar la lista de entrada e iterar el índice para cada valor:" << endl;
+    cout << "\n\toutput = [";
+    temp = cabeza;
+    int i = 0;
+    while (temp) {
+        while (frecuencias[i] == 0) {
+            i++;
+        }
+        temp->dato = to_string(i + minimo);
+        frecuencias[i]--;
+        cout << temp->dato;
+        if (temp->siguiente != nullptr) {
+            cout << ", ";
+        }
+        temp = temp->siguiente;
+    }
+    cout << "]" << endl;
+
+    auto stop = high_resolution_clock::now();
+    medirTiempo(start, stop, cabeza, "\n\tArreglo después del Counting Sort");
+}
+
+
+9. Radix Sort
+
+La función `radixSort` implementa el algoritmo de ordenamiento Radix Sort en una lista enlazada. Radix Sort es un algoritmo de ordenamiento no comparativo que ordena los elementos en base a sus dígitos individuales. A continuación, se detalla la lógica de la función:
+
+### Inicio y Medición del Tiempo
+
+- **Inicio del medidor de tiempo**: Se inicia el medidor de tiempo utilizando `high_resolution_clock` para poder calcular el tiempo de ejecución del algoritmo.
+
+### Impresión del Arreglo Inicial
+
+- **Impresión de la lista enlazada**: Se imprime la lista enlazada actual para mostrar el estado inicial antes de aplicar el algoritmo de ordenamiento.
+
+### Preparación para el Radix Sort
+
+- **Lista de colas**: Se crea un vector de colas, una para cada posible valor de dígito (del 0 al 9). Estas colas se utilizarán para agrupar los elementos por su dígito en cada iteración.
+
+- **Determinar el número máximo de dígitos**: Se recorre la lista enlazada para determinar el número máximo de dígitos en los números presentes. Esto es necesario para saber cuántas iteraciones del algoritmo se necesitan.
+
+### Iteración por Dígitos
+
+- **Iterar sobre cada dígito**: Para cada dígito, desde el menos significativo hasta el más significativo, se realiza lo siguiente:
+  
+  - **Asignar elementos a las colas**: Se recorre la lista enlazada, extrayendo el dígito en la posición actual de cada número y asignando el número completo a la cola correspondiente al dígito.
+
+  - **Reconstruir la lista enlazada**: Se recorren las colas en orden ascendente de dígito, tomando los elementos de cada cola y reconstruyendo la lista enlazada con estos elementos. Esto efectivamente ordena los números por el dígito actual.
+
+### Fin y Medición del Tiempo
+
+- **Fin del medidor de tiempo**: Se registra el tiempo final utilizando el medidor de tiempo iniciado al principio.
+
+- **Impresión del tiempo de ejecución**: Se imprime el tiempo de ejecución del algoritmo.
+
+### Función `obtenerDigito`
+
+- **Función auxiliar**: Esta función extrae el dígito en una posición específica de un número representado como una cadena. Si la posición está fuera del rango, devuelve 0.
+
+
+
+   // Función para obtener el dígito en una posición específica de un número representado como una cadena
+int obtenerDigito(const string& numero, int posicion) {
+    if (posicion >= 0 && posicion < numero.length()) {
+        // Obtén el dígito de la posición indicada
+        return numero[posicion] - '0';
+    } else {
+        // Si la posición está fuera del rango, devuelve 0
+        return 0;
+    }
+}
+
+//-- ordena sobre el último número entero.
+
+void radixSort(Nodo*& cabeza) {
+    auto start = high_resolution_clock::now();
+
+    cout << "\n\tArreglo inicial: ";
+    imprimirLista(cabeza);
+
+    // Lista de colas para almacenar los números en cada dígito
+    vector<queue<int>> colas(10);
+
+    // Obtener el número máximo de dígitos
+    int maxDigitos = 0;
+    Nodo* temp = cabeza;
+    while (temp != nullptr) {
+        maxDigitos = max(maxDigitos, (int)log10(stod(temp->dato)) + 1);
+        temp = temp->siguiente;
+    }
+
+    // Iterar sobre cada dígito, comenzando desde el menos significativo
+    for (int i = 0; i < maxDigitos; ++i) {
+        // Asignar elementos a las colas basadas en el dígito actual
+        temp = cabeza;
+        while (temp != nullptr) {
+            int digito = obtenerDigito(temp->dato, i);
+            colas[digito].push(stoi(temp->dato));
+            temp = temp->siguiente;
+        }
+
+        // Reconstruir la lista enlazada usando los elementos de las colas
+        temp = cabeza;
+        cout << "\n\tPasada con dígito " << i + 1 << ":" << endl;
+        for (int j = 0; j < 10; ++j) {
+            cout << " Cola " << j << ": ";
+            while (!colas[j].empty()) {
+                temp->dato = to_string(colas[j].front());
+                cout << temp->dato << " ";
+                colas[j].pop();
+                temp = temp->siguiente;
+            }
+            cout << endl;
+        }
+    }
+
+    auto stop = high_resolution_clock::now();
+    medirTiempo(start, stop, cabeza, "\n\tTiempo de ejecución:");
+}
+
+
+
+    
