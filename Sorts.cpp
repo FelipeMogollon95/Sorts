@@ -61,7 +61,7 @@ int main() {
     cout << "\n\t¿Cuántos números aleatorios desea generar?: ";
     int cantidad_numeros = obtenerNumero(); // Utilizar la función para obtener un número
 
-    ofstream archivo("numeros.txt");
+    ofstream archivo("numeros.txt"); // Crear archivo
 
     srand(time(0)); // Semilla para números aleatorios
 
